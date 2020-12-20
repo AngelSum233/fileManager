@@ -1,12 +1,12 @@
 <template>
   <el-container class="container">
     <el-header class="header" style="height:154px">
-      <el-input placeholder="请输入内容" value class="head-input">
+      <el-input placeholder="请输入搜索关键词..."  class="head-input" style="width:596px;">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </el-header>
     <el-container>
-      <el-aside class="aside" >
+      <el-aside class="aside">
         <!-- 侧边栏导航  -->
         <!-- unique-opened只展开一个 -->
         <!-- router开启路由模式 -->
@@ -14,6 +14,7 @@
           text-color="#212121"
           active-text-color="#4BBBFA"
           style="height:100%"
+          background-color="#F7F9FD"
           >
           <el-submenu :index="' '+item1.order" v-for="(item1) in menuData" :key="item1.path">
             <!--表示可以展开的一组 -->
@@ -74,7 +75,11 @@ export default {
           children: [
             {
               path: 'orderinfomange',
-              name: '订单信息'
+              name: '订单信息1'
+            },
+            {
+              path: 'orderinfomange2',
+              name: '订单信息2'
             }
           ]
         },
@@ -96,9 +101,47 @@ export default {
   }
 }
 </script>
-<style scoped >
+<style lang="less">
+@import url('//at.alicdn.com/t/font_2276334_ij1covw13em.css');
+body,
+html,
+#app{
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
 .container{
   height: 100%;
+  /deep/.el-input__inner{
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 18px;
+    border-top-left-radius: 18px;
+  }
+  .el-icon-search:before {
+    font-family: 'iconfont';
+    content: "\e61c";
+    color: #fff;
+  }
+  /deep/.el-input-group__append {
+    border-bottom-right-radius: 18px;
+    border-top-right-radius: 18px;
+    background-color: #0A80C9;
+    border: 0.5px solid transparent;
+  }
+}
+.el-menu :hover{
+  color: #4BBBFA;
+  font-size: 16px;
+}
+.el-menu {
+  font-size: 16px;
+}
+.el-menu-item * {
+    vertical-align: middle;
+    font-size: 16px;
+}
+.el-submenu__title * {
+  font-size: 16px;
 }
 .header {
   background: #4BBBFA;
@@ -107,35 +150,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.head-input{
-  width:516px;
-  border-radius: 20%;
-}
-.el-aside {
-  background-color: #F7F9FD;
-}
-.el-menu{
-    border-right: none;
-  }
-.main {
-  /* height: 100%; */
-  color: #212121;
-}
-.menu{
-  height: 100%;
-}
-.el-aside {
-  overflow-y: scroll;
-}
-::v-deep .head-input .el-input-group>.el-input__inner{
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 18px;
-    border-top-left-radius: 18px;
-}
-.el-input-group--prepend .el-input__inner, .el-input-group__append {
-    border-bottom-right-radius: 18px;
-    border-top-right-radius: 18px;
-    background-color: #0A80C9;
 }
 </style>

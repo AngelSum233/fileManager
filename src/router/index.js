@@ -5,6 +5,7 @@ import componyinfomanage from '../views/componyInfoManage.vue'
 import postinfomange from '../views/postinfomange.vue'
 import orderinfomange from '../views/orderinfomange.vue'
 import datamangeinfo from '../views/datamangeinfo.vue'
+import orderinfomange2 from '../views/orderinfomange2.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ const router = new Router({
           path: '/orderinfomange',
           name: '订单信息',
           component: orderinfomange
+        },
+        {
+          path: '/orderinfomange2',
+          name: '订单信息2',
+          component: orderinfomange2
         },
         {
           path: '/datamangeinfo',
