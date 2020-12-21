@@ -1,7 +1,7 @@
 <template>
   <el-container class="container">
     <el-header class="header" style="height:154px">
-      <el-input placeholder="请输入搜索关键词..."  class="head-input" style="width:596px;">
+      <el-input placeholder="请输入搜索关键词..."  class="head-input" style="width:41vw;">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </el-header>
@@ -16,16 +16,16 @@
           style="height:100%"
           background-color="#F7F9FD"
           >
-          <el-submenu :index="' '+item1.order" v-for="(item1) in menuData" :key="item1.path">
+          <el-submenu :index="item1.order" v-for="(item1) in menuData" :key="item1.path">
             <!--表示可以展开的一组 -->
-            <template slot="title" @click="clickTitle">
+            <template slot="title">
               <!--文字 -->
               <span>{{item1.name}}</span>
             </template>
             <el-menu-item
               class="menuItem"
-              @click="clickMenuItem"
               v-for="(item2) in item1.children"
+              @click="deliverQuery(item2)"
               :key="item2.path"
               :index="item2.path"
             >
@@ -41,6 +41,7 @@
   </el-container>
 </template>
 <script>
+// import MainContent from './MainContent.vue'
 export default {
   name: 'Home',
   data () {
@@ -53,7 +54,8 @@ export default {
           children: [
             {
               path: 'componyinfomanage',
-              name: '企业信息'
+              name: '企业信息',
+              query: { id: '企业信息' }
             }
           ]
         },
@@ -64,7 +66,8 @@ export default {
           children: [
             {
               path: 'postinfomange',
-              name: '岗位信息'
+              name: '岗位信息',
+              query: { id: '岗位信息' }
             }
           ]
         },
@@ -75,11 +78,13 @@ export default {
           children: [
             {
               path: 'orderinfomange',
-              name: '订单信息1'
+              name: '订单信息1',
+              query: { id: '订单信息1' }
             },
             {
               path: 'orderinfomange2',
-              name: '订单信息2'
+              name: '订单信息2',
+              query: { id: '订单信息2' }
             }
           ]
         },
@@ -90,14 +95,24 @@ export default {
           children: [
             {
               path: 'datamangeinfo',
-              name: '岗位类型'
+              name: '岗位类型',
+              query: { id: '岗位类型' }
             }
           ]
         }
       ]
     }
   },
+  components: {
+    // MainContent
+  },
   methods: {
+    deliverQuery (item) {
+      this.$router.push({
+        path: item.path,
+        query: item.query
+      })
+    }
   }
 }
 </script>

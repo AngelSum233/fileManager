@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '../views/home.vue'
-import componyinfomanage from '../views/componyInfoManage.vue'
-import postinfomange from '../views/postinfomange.vue'
-import orderinfomange from '../views/orderinfomange.vue'
-import datamangeinfo from '../views/datamangeinfo.vue'
-import orderinfomange2 from '../views/orderinfomange2.vue'
+// import componyinfomanage from '../views/componyInfoManage.vue'
+// import postinfomange from '../views/postinfomange.vue'
+// import orderinfomange from '../views/orderinfomange.vue'
+// import datamangeinfo from '../views/datamangeinfo.vue'
+// import orderinfomange2 from '../views/orderinfomange2.vue'
+import MainContent from '../views/MainContent.vue'
 
 Vue.use(Router)
 
@@ -23,27 +24,27 @@ const router = new Router({
         {
           path: '/componyinfomanage',
           name: '企业信息',
-          component: componyinfomanage
+          component: MainContent
         },
         {
           path: '/postinfomange',
           name: '岗位信息',
-          component: postinfomange
+          component: MainContent
         },
         {
           path: '/orderinfomange',
           name: '订单信息',
-          component: orderinfomange
+          component: MainContent
         },
         {
           path: '/orderinfomange2',
           name: '订单信息2',
-          component: orderinfomange2
+          component: MainContent
         },
         {
           path: '/datamangeinfo',
           name: '数据管理',
-          component: datamangeinfo
+          component: MainContent
         }
       ]
     }

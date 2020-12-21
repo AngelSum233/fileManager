@@ -1,6 +1,6 @@
 <template>
   <div>
-    岗位信息
+    {{this.$route.query.id}}
   </div>
 </template>
 

@@ -22,6 +22,6 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  min-width: 1366px;
+  width: 100%;
 }
 </style>
