@@ -27,6 +27,26 @@ const router = new Router({
           component: MainContent
         },
         {
+          path: '/componyinfomanage2',
+          name: '企业信息',
+          component: MainContent
+        },
+        {
+          path: '/componyinfomanage21',
+          name: '企业信息1',
+          component: MainContent
+        },
+        {
+          path: '/componyinfomanage22',
+          name: '企业信息2',
+          component: MainContent
+        },
+        {
+          path: '/componyinfomanage1',
+          name: '企业管理',
+          component: MainContent
+        },
+        {
           path: '/postinfomange',
           name: '岗位信息',
           component: MainContent

@@ -6,32 +6,42 @@
       </el-input>
     </el-header>
     <el-container>
+      <!-- 左侧导航栏 -->
       <el-aside class="aside">
         <!-- 侧边栏导航  -->
         <!-- unique-opened只展开一个 -->
         <!-- router开启路由模式 -->
-        <el-menu :unique-opened="true" :router="true" class="menu"
+        <el-menu
+          :unique-opened="true" :router="true" class="menu"
           text-color="#212121"
           active-text-color="#4BBBFA"
           style="height:100%"
-          background-color="#F7F9FD"
-          >
-          <el-submenu :index="item1.order" v-for="(item1) in menuData" :key="item1.path">
-            <!--表示可以展开的一组 -->
-            <template slot="title">
-              <!--文字 -->
-              <span>{{item1.name}}</span>
-            </template>
-            <el-menu-item
-              class="menuItem"
-              v-for="(item2) in item1.children"
-              @click="deliverQuery(item2)"
-              :key="item2.path"
-              :index="item2.path"
-            >
-              <span>{{item2.name}}</span>
+          background-color="#F7F9FD">
+          <!--一级菜单-->
+          <template v-for="item in menuData">
+            <el-submenu v-if="item.children && item.children.length" :index="item.path" :key="item.path">
+              <template slot="title">
+                <span>{{item.name}}</span>
+              </template>
+              <!--二级菜单-->
+              <template v-for="itemChild in item.children">
+                <el-submenu v-if="itemChild.children && itemChild.children.length" :index="itemChild.path" :key="itemChild.path">
+                  <template slot="title">
+                    <span>{{itemChild.name}}</span>
+                  </template>
+                  <!--三级菜单-->
+                  <el-menu-item v-for="itemChild_child in itemChild.children" :index="itemChild_child.path" :key="itemChild_child.path" @click="deliverQuery(itemChild_child)">
+                    <span slot="title">{{itemChild_child.name}}</span>
+                  </el-menu-item>
+                </el-submenu>
+                <el-menu-item v-else :index="itemChild.path" :key="itemChild.path" @click="deliverQuery(itemChild)">{{itemChild.name}}</el-menu-item>
+              </template>
+
+            </el-submenu>
+            <el-menu-item class="menu-item" v-else :index="item.path" :key="item.path">
+              <span slot="title">{{item.name}}</span>
             </el-menu-item>
-          </el-submenu>
+          </template>
         </el-menu>
       </el-aside>
       <el-main class="main">
@@ -53,9 +63,25 @@ export default {
           path: 'componyinfomanage',
           children: [
             {
-              path: 'componyinfomanage',
+              path: 'componyinfomanage2',
               name: '企业信息',
-              query: { id: '企业信息' }
+              children: [
+                {
+                  path: 'componyinfomanage21',
+                  name: '企业信息1',
+                  query: { id: '企业信息1' }
+                },
+                {
+                  path: 'componyinfomanage22',
+                  name: '企业信息2',
+                  query: { id: '企业信息2' }
+                }
+              ]
+            },
+            {
+              path: 'componyinfomanage1',
+              name: '企业管理',
+              query: { id: '企业管理' }
             }
           ]
         },
@@ -143,17 +169,20 @@ html,
     background-color: #0A80C9;
     border: 0.5px solid transparent;
   }
+  /deep/.menu-item :hover{
+    color: #4BBBFA;
+    font-size: 17px;
+  }
 }
 .el-menu :hover{
   color: #4BBBFA;
-  font-size: 16px;
+  font-size: 17px;
 }
 .el-menu {
   font-size: 16px;
 }
-.el-menu-item * {
-    vertical-align: middle;
-    font-size: 16px;
+.el-submenu .el-menu-item{
+  font-size: 16px;
 }
 .el-submenu__title * {
   font-size: 16px;
