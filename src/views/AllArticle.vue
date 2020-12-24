@@ -1,13 +1,14 @@
 <template>
+  <!-- data是个数组 数组里面存放内容、作者 -->
   <div>
-    <div class="contain">
-        <h4 class="title">{{contentList.title}}</h4>
+    <div v-for="(item, index) in datalist" :key="index" class="contain">
+        <h4 class="title">{{item.title}}</h4>
+        <p v-html="item.content"></p>
         <div class="about">
-            <span>更新时间：{{contentList.addTime}}</span>
-            <span>作者：{{contentList.author}}</span>
+            <span>更新时间：{{item.addTime}}</span>
+            <span>作者：{{item.author}}</span>
         </div>
         <div class="line"></div>
-        <p v-html="contentList.content"></p>
     </div>
   </div>
 </template>
@@ -16,7 +17,8 @@
 export default {
   data () {
     return {
-      contentList: []
+      contentList: [],
+      datalist: this.$route.query.data
     }
   },
   watch: {
@@ -45,7 +47,9 @@ export default {
     p{
         color: #37474f;
         font-size: 16px;
-        line-height: 30px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
         width:100%;
     }
 }
@@ -59,7 +63,7 @@ export default {
 .about{
     display: flex;
     color: #617288;
-    font-size: 13px;
+    font-size: 16px;
     margin-top: 10px;
     span{
         padding-right: 11px;

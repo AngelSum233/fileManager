@@ -1,148 +1,123 @@
 <template>
-  <el-container class="container">
-    <el-header class="header" style="height:154px">
-      <el-input placeholder="请输入搜索关键词..."  class="head-input" style="width:41vw;">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
-    </el-header>
-    <el-container>
-      <!-- 左侧导航栏 -->
-      <el-aside class="aside">
-        <!-- 侧边栏导航  -->
-        <!-- unique-opened只展开一个 -->
-        <!-- router开启路由模式 -->
-        <el-menu
-          :unique-opened="true" :router="true" class="menu"
-          text-color="#212121"
-          active-text-color="#4BBBFA"
-          style="height:100%"
-          background-color="#F7F9FD">
-          <!--一级菜单-->
-          <template v-for="item in menuData">
-            <el-submenu v-if="item.children && item.children.length" :index="item.path" :key="item.path">
-              <template slot="title">
-                <span>{{item.name}}</span>
-              </template>
-              <!--二级菜单-->
-              <template v-for="itemChild in item.children">
-                <el-submenu v-if="itemChild.children && itemChild.children.length" :index="itemChild.path" :key="itemChild.path">
-                  <template slot="title">
-                    <span>{{itemChild.name}}</span>
-                  </template>
-                  <!--三级菜单-->
-                  <el-menu-item v-for="itemChild_child in itemChild.children" :index="itemChild_child.path" :key="itemChild_child.path" @click="deliverQuery(itemChild_child)">
-                    <span slot="title">{{itemChild_child.name}}</span>
-                  </el-menu-item>
-                </el-submenu>
-                <el-menu-item v-else :index="itemChild.path" :key="itemChild.path" @click="deliverQuery(itemChild)">{{itemChild.name}}</el-menu-item>
-              </template>
-
-            </el-submenu>
-            <el-menu-item class="menu-item" v-else :index="item.path" :key="item.path">
-              <span slot="title">{{item.name}}</span>
-            </el-menu-item>
-          </template>
-        </el-menu>
-      </el-aside>
-      <el-main class="main">
-        <router-view/>
-      </el-main>
+  <div>
+    <el-container class="container">
+      <el-header class="header" style="height:154px">
+        <el-input placeholder="请输入搜索关键词..."  v-model="search"
+        class="head-input" style="width:41vw;" >
+          <el-button id="btn" slot="append" icon="el-icon-search" @click="getContentQuery (search)" ></el-button>
+        </el-input>
+      </el-header>
+      <el-container>
+        <!-- 左侧导航栏 -->
+        <el-aside class="aside">
+          <!-- 侧边栏导航  -->
+          <!-- unique-opened只展开一个 -->
+          <!-- router开启路由模式 -->
+          <el-menu
+            :unique-opened="true" :router="true"
+            text-color="#212121"
+            default-active="activePath"
+            active-text-color="#4BBBFA"
+            style="height:100%"
+            background-color="#F7F9FD">
+            <!--一级菜单-->
+            <template v-for="item in menuList">
+              <el-submenu v-if="item.childrens && item.childrens.length" :index="item.id.toString()" :key="item.id">
+                <template slot="title">
+                  <span>{{item.title}}</span>
+                </template>
+                <!--二级菜单-->
+                <template v-for="itemChild in item.childrens">
+                  <el-submenu v-if="itemChild.childrens && itemChild.childrens.length"
+                  :index="itemChild.id.toString()"  :key="itemChild.id">
+                    <template slot="title">
+                      <span>{{itemChild.title}}</span>
+                    </template>
+                    <!--三级菜单-->
+                    <el-menu-item v-for="itemChild_child in itemChild.childrens" :index="itemChild_child.id.toString()"
+                    :key="itemChild_child.id" @click="deliverQuery(itemChild_child)">
+                      <span slot="title">{{itemChild_child.title}}</span>
+                    </el-menu-item>
+                  </el-submenu>
+                  <el-menu-item v-else :index="itemChild.id.toString()" :key="itemChild.id"
+                  @click="deliverQuery(itemChild)">{{itemChild.title}}</el-menu-item>
+                </template>
+              </el-submenu>
+              <el-menu-item class="menu-item" v-else :index="item.id.toString()" :key="item.id"
+              @click="deliverQuery(item)">
+                <span slot="title">{{item.title}}</span>
+              </el-menu-item>
+            </template>
+          </el-menu>
+        </el-aside>
+        <el-main class="main">
+          <router-view/>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+    <v-bottom></v-bottom>
+  </div>
 </template>
 <script>
-// import MainContent from './MainContent.vue'
+import Bottom from '../components/Bottom'
 export default {
   name: 'Home',
   data () {
     return {
-      menuData: [
-        {
-          name: '企业信息管理',
-          order: '1',
-          path: 'componyinfomanage',
-          children: [
-            {
-              path: 'componyinfomanage2',
-              name: '企业信息',
-              children: [
-                {
-                  path: 'componyinfomanage21',
-                  name: '企业信息1',
-                  query: { id: '企业信息1' }
-                },
-                {
-                  path: 'componyinfomanage22',
-                  name: '企业信息2',
-                  query: { id: '企业信息2' }
-                }
-              ]
-            },
-            {
-              path: 'componyinfomanage1',
-              name: '企业管理',
-              query: { id: '企业管理' }
-            }
-          ]
-        },
-        {
-          path: 'postinfomange',
-          name: '岗位信息管理',
-          order: '2',
-          children: [
-            {
-              path: 'postinfomange',
-              name: '岗位信息',
-              query: { id: '岗位信息' }
-            }
-          ]
-        },
-        {
-          path: 'orderinfomange',
-          name: '订单信息管理',
-          order: '3',
-          children: [
-            {
-              path: 'orderinfomange',
-              name: '订单信息1',
-              query: { id: '订单信息1' }
-            },
-            {
-              path: 'orderinfomange2',
-              name: '订单信息2',
-              query: { id: '订单信息2' }
-            }
-          ]
-        },
-        {
-          path: 'datamangeinfo',
-          name: '数据字典',
-          order: '4',
-          children: [
-            {
-              path: 'datamangeinfo',
-              name: '岗位类型',
-              query: { id: '岗位类型' }
-            }
-          ]
-        }
-      ]
+      menuList: [],
+      search: ''
     }
   },
   components: {
-    // MainContent
+    'v-bottom': Bottom
+  },
+  created () {
+    console.log('shauxin')
+    // document.getElementById('btn').click()
+    this.getmenuList()
   },
   methods: {
     deliverQuery (item) {
       this.$router.push({
-        path: item.path,
-        query: item.query
+        path: 'content',
+        query: item
       })
+    },
+    // 获取所有菜单
+    async getmenuList () {
+      const { data: res } = await this.$http.get('/article/queryinitial')
+      this.menuList = res.data
+      console.log(this.menuList)
+    },
+    // 搜索
+    async getContentQuery (title) {
+      const { data: res } = await this.$http.get('/article/query', { params: { title } })
+      console.log('111111111' + title)
+      if (res.status !== 200 || res.msg) {
+        alert('对不起 没有你要找的内容...')
+      } else {
+        this.$router.push({
+          path: 'allArticle',
+          query: res
+        }
+        )
+        console.log(res)
+      }
+    },
+    activePath () {
+      const route = this.$route
+      const { meta, path } = route
+      // if set path, the sidebar will highlight the path you set
+      if (meta.activeMenu) {
+        return meta.activeMenu
+      }
+      return path
     }
   }
+
 }
 </script>
-<style lang="less">
+<style lang="less" >
 @import url('//at.alicdn.com/t/font_2276334_ij1covw13em.css');
 body,
 html,
@@ -169,10 +144,6 @@ html,
     background-color: #0A80C9;
     border: 0.5px solid transparent;
   }
-  /deep/.menu-item :hover{
-    color: #4BBBFA;
-    font-size: 17px;
-  }
 }
 .el-menu :hover{
   color: #4BBBFA;
@@ -194,5 +165,16 @@ html,
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 11px 0px;
+    font-size: 14px;
+    color: #2c3a46;
+    height: 100px;
+    width: 100%;
+    border-top: 1px solid #dddee0;
 }
 </style>
