@@ -3,7 +3,7 @@
     <el-container class="container">
       <el-header class="header" style="height:154px">
         <el-input placeholder="请输入搜索关键词..."  v-model="search"
-        class="head-input" style="width:41vw;" >
+        class="head-input" style="width:41vw;" clearable @>
           <el-button id="btn" slot="append" icon="el-icon-search" @click="getContentQuery (search)" ></el-button>
         </el-input>
       </el-header>
@@ -35,16 +35,16 @@
                     </template>
                     <!--三级菜单-->
                     <el-menu-item v-for="itemChild_child in itemChild.childrens" :index="itemChild_child.id.toString()"
-                    :key="itemChild_child.id" @click="deliverQuery(itemChild_child)">
+                    :key="itemChild_child.id" @click="deliverQuery(itemChild_child.id)">
                       <span slot="title">{{itemChild_child.title}}</span>
                     </el-menu-item>
                   </el-submenu>
                   <el-menu-item v-else :index="itemChild.id.toString()" :key="itemChild.id"
-                  @click="deliverQuery(itemChild)">{{itemChild.title}}</el-menu-item>
+                  @click="deliverQuery(itemChild.id)">{{itemChild.title}}</el-menu-item>
                 </template>
               </el-submenu>
               <el-menu-item class="menu-item" v-else :index="item.id.toString()" :key="item.id"
-              @click="deliverQuery(item)">
+              @click="deliverQuery(item.id)">
                 <span slot="title">{{item.title}}</span>
               </el-menu-item>
             </template>
@@ -72,51 +72,38 @@ export default {
     'v-bottom': Bottom
   },
   created () {
-    console.log('shauxin')
-    // document.getElementById('btn').click()
     this.getmenuList()
+    this.getContentQuery(this.search)
   },
   methods: {
-    deliverQuery (item) {
+    // 点击左侧导航栏
+    deliverQuery (id) {
       this.$router.push({
         path: 'content',
-        query: item
+        query: {
+          id: id
+        }
       })
     },
     // 获取所有菜单
     async getmenuList () {
       const { data: res } = await this.$http.get('/article/queryinitial')
       this.menuList = res.data
-      console.log(this.menuList)
     },
-    // 搜索
+    //
     async getContentQuery (title) {
-      const { data: res } = await this.$http.get('/article/query', { params: { title } })
-      console.log('111111111' + title)
-      if (res.status !== 200 || res.msg) {
-        alert('对不起 没有你要找的内容...')
-      } else {
-        this.$router.push({
-          path: 'allArticle',
-          query: res
+      this.$router.push({
+        path: 'allArticle',
+        query: {
+          title: title
         }
-        )
-        console.log(res)
-      }
-    },
-    activePath () {
-      const route = this.$route
-      const { meta, path } = route
-      // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
+      })
     }
   }
 
 }
 </script>
+
 <style lang="less" >
 @import url('//at.alicdn.com/t/font_2276334_ij1covw13em.css');
 body,
@@ -147,15 +134,8 @@ html,
 }
 .el-menu :hover{
   color: #4BBBFA;
-  font-size: 17px;
 }
 .el-menu {
-  font-size: 16px;
-}
-.el-submenu .el-menu-item{
-  font-size: 16px;
-}
-.el-submenu__title * {
   font-size: 16px;
 }
 .header {

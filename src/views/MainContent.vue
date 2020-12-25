@@ -31,7 +31,7 @@ export default {
         const { data: res } = await this.$http.get('/article/queryid', { params: { id } })
         this.contentList = res.data
       }
-      console.log(this.contentList)
+      console.log('main233' + this.contentList)
     }
   }
 }
@@ -44,13 +44,13 @@ export default {
     margin-top: 10px;
     p{
         color: #37474f;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 30px;
         width:100%;
     }
 }
 .title{
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 10px;
     font-weight: 400;
     line-height: 1.2;

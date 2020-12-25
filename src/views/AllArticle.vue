@@ -2,7 +2,9 @@
   <!-- data是个数组 数组里面存放内容、作者 -->
   <div>
     <div v-for="(item, index) in datalist" :key="index" class="contain">
-        <h4 class="title">{{item.title}}</h4>
+        <div class="title">
+            <h4  @click="toUrl(item.id)">{{item.title}}</h4>
+        </div>
         <p v-html="item.content"></p>
         <div class="about">
             <span>更新时间：{{item.addTime}}</span>
@@ -18,22 +20,27 @@ export default {
   data () {
     return {
       contentList: [],
-      datalist: this.$route.query.data
+      datalist: []
     }
   },
   watch: {
-    '$route' (to, from) { this.getcontentList(this.$route.query.id) }
+    '$route' (to, from) { this.getContentQuery(this.$route.query.title) }
   },
   mounted () {
-    this.getcontentList(this.$route.query.id)
+    this.getContentQuery(this.$route.query.title)
   },
   methods: {
-    async getcontentList (id) {
-      if (id !== undefined) {
-        const { data: res } = await this.$http.get('/article/queryid', { params: { id } })
-        this.contentList = res.data
-      }
-      console.log(this.contentList)
+    toUrl (id) {
+      this.$router.push({
+        path: 'content',
+        query: {
+          id: id
+        }
+      })
+    },
+    async getContentQuery (title) {
+      const { data: res } = await this.$http.get('/article/query', { params: { title } })
+      this.datalist = res.data
     }
   }
 }
@@ -46,19 +53,23 @@ export default {
     margin-top: 10px;
     p{
         color: #37474f;
-        font-size: 16px;
+        font-size: 14px;
         white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
         width:100%;
     }
 }
-.title{
-    font-size: 20px;
+.title h4{
+    font-size: 16px;
     margin-bottom: 10px;
     font-weight: 400;
     line-height: 1.2;
     color: #37474f;
+}
+.title :hover{
+    color: #4BBBFA;
+    cursor: pointer;
 }
 .about{
     display: flex;
