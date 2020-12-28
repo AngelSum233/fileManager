@@ -11,6 +11,7 @@ const router = new Router({
     {
       path: '/',
       component: home,
+      redirect: '/allArticle',
       children: [
         {
           path: '/content',

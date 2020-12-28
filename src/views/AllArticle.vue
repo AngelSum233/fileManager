@@ -27,7 +27,11 @@ export default {
     '$route' (to, from) { this.getContentQuery(this.$route.query.title) }
   },
   mounted () {
-    this.getContentQuery(this.$route.query.title)
+    if (!this.$route.query.title) {
+      this.getContentQuery('')
+    } else {
+      this.getContentQuery(this.$route.query.title)
+    }
   },
   methods: {
     toUrl (id) {
@@ -48,41 +52,41 @@ export default {
 
 <style lang="less" scoped>
 .contain{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    p{
-        color: #37474f;
-        font-size: 14px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        width:100%;
-    }
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  p{
+      color: #37474f;
+      font-size: 14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      width:100%;
+  }
 }
 .title h4{
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 400;
-    line-height: 1.2;
-    color: #37474f;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #37474f;
 }
 .title :hover{
-    color: #4BBBFA;
-    cursor: pointer;
+  color: #4BBBFA;
+  cursor: pointer;
 }
 .about{
-    display: flex;
-    color: #617288;
-    font-size: 16px;
-    margin-top: 10px;
-    span{
-        padding-right: 11px;
-    }
+  display: flex;
+  color: #617288;
+  font-size: 16px;
+  margin-top: 10px;
+  span{
+    padding-right: 11px;
+  }
 }
 .line{
-    margin-top: 13px;
-    margin-bottom: 18px;
-    border-top: 0.1px solid #f0f2f5;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  border-top: 0.1px solid #f0f2f5;
 }
 </style>

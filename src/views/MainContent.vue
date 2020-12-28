@@ -67,7 +67,7 @@ export default {
 }
 .line{
     margin-top: 13px;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
     border-top: 0.1px solid #f0f2f5;
 }
 </style>

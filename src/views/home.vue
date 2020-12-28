@@ -71,9 +71,8 @@ export default {
   components: {
     'v-bottom': Bottom
   },
-  created () {
+  mounted () {
     this.getmenuList()
-    this.getContentQuery(this.search)
   },
   methods: {
     // 点击左侧导航栏
